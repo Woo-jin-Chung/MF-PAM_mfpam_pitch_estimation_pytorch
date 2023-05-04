@@ -1,0 +1,16 @@
+{
+    "num_gpus": 1,
+    "batch_size": 64,
+    "learning_rate": 3e-4,
+    "adam_b1": 0.9,
+    "adam_b2": 0.999,
+    "lr_decay": 0.999,
+    "seed": 1234,
+
+    "hop_size": 128,
+
+    "sampling_rate": 16000,
+    "max_wav_value": 32768.0,
+
+    "num_workers": 4
+}
