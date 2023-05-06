@@ -38,9 +38,9 @@ class Analysis_stage(nn.Module):
         npconv2 = N_Conv(self.hidden, self.hidden*2, self.kernel_size, self.stride, self.npfactor[0])
         
         # P-Conv3, 4, 5
-        pconv3 = P_Conv(self.hidden*2, self.hidden*4, self.kernel_size*2, self.stride, self.pfactor[1])
-        pconv4 = P_Conv(self.hidden*4, self.hidden*8, self.kernel_size*2, self.stride, self.pfactor[1])
-        pconv5 = P_Conv(self.hidden*8, self.hidden*16, self.kernel_size*3, self.stride, self.pfactor[1])
+        pconv3 = P_Conv(self.hidden*2, self.hidden*4, self.kernel_size*2, self.stride, self.pfactor[2])
+        pconv4 = P_Conv(self.hidden*4, self.hidden*8, self.kernel_size*2, self.stride, self.pfactor[3])
+        pconv5 = P_Conv(self.hidden*8, self.hidden*16, self.kernel_size*3, self.stride, self.pfactor[4])
 
         self.p_conv1.append(nn.Sequential(*pconv1))
         self.np_conv1.append(nn.Sequential(*npconv1))
