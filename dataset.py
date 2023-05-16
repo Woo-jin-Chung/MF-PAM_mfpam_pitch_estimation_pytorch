@@ -111,18 +111,14 @@ class Audioset:
 
 
 class F0Dataset(torch.utils.data.Dataset):
-    def __init__(self, traindata, segment_size, n_fft, num_mels,
-                 hop_size, sampling_rate, split=True, shuffle=True, n_cache_reuse=1,
+    def __init__(self, traindata, hop_size, sampling_rate, split=True, shuffle=True, n_cache_reuse=1,
                  device=None, train=True, length=4.5*16000, stride=1*16000, pad=True):
         self.traindata = traindata
         random.seed(1234)
         if shuffle:
             random.shuffle(self.traindata)
-        self.segment_size = segment_size
         self.sampling_rate = sampling_rate
         self.split = split
-        self.n_fft = n_fft
-        self.num_mels = num_mels
         self.hop_size = hop_size
         self.cached_wav = None
         self.cached_clean_wav = None
