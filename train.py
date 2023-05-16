@@ -71,8 +71,7 @@ def train(rank, a, h):
 
     traindata, valdata = get_dataset_filelist(a)
     
-    trainset = F0Dataset(traindata, h.segment_size, h.n_fft, h.num_mels,
-                            h.hop_size, h.sampling_rate, n_cache_reuse=0,
+    trainset = F0Dataset(traindata, h.hop_size, h.sampling_rate, n_cache_reuse=0,
                             shuffle=False, device=device,
                             train=True)
 
@@ -83,8 +82,7 @@ def train(rank, a, h):
                                 drop_last=True)
 
     if rank == 0:
-        validset = F0Dataset(valdata, h.segment_size, h.n_fft, h.num_mels,
-                                h.hop_size, h.sampling_rate, False, False, n_cache_reuse=0,
+        validset = F0Dataset(valdata, h.hop_size, h.sampling_rate, False, False, n_cache_reuse=0,
                                 device=device, train=False)
 
         validation_loader = DataLoader(validset, num_workers=1, shuffle=False,
