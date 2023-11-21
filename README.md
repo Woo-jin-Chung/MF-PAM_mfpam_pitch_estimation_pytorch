@@ -3,4 +3,5 @@ This repo is the official Pytorch implementation of ["MF-PAM: Accurate Pitch Est
 
 
 In the paper we predicted the quantized f0 with BCELoss.
-However, you can directly estimate the f0 value with L1 loss, which gives a more accurate VAD performance.
+
+However, you can also directly estimate the f0 value with L1 loss, which gives a more accurate VAD performance.
