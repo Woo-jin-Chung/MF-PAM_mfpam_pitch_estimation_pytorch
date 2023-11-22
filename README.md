@@ -1,4 +1,7 @@
 # MF-PAM_pytorch
+
+![overall_architecture](https://github.com/Woo-jin-Chung/mfpam-pitch-estimation-pytorch/assets/76720656/9771d5ca-9993-4e84-ae13-d6d7481abf0f)
+
 This repo is the official Pytorch implementation of ["MF-PAM: Accurate Pitch Estimation through Periodicity Analysis and Multi-level Feature Fusion"](https://arxiv.org/abs/2306.09640) accepted in INTERSPEECH 2023.
 
 
