@@ -109,7 +109,10 @@ def train(rank, a, h):
 
             cleanf0, cleanf0_quant, \
                     cleanaudio, noisyaudio, filename = batch
-            
+            # cleanf0.size() = [B, T/hop_len]
+            # cleanf0_quant.size() = [B, T/hop_len, 360]
+            # cleanaudio.size() = noisyaudio.size() = [B, T]
+                
             cleanf0 = torch.autograd.Variable(cleanf0.to(device, non_blocking=True))
             cleanf0_quant = torch.autograd.Variable(cleanf0_quant.to(device, non_blocking=True))
             noisyaudio = torch.autograd.Variable(noisyaudio.to(device, non_blocking=True))
