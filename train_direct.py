@@ -91,8 +91,11 @@ def train(rank, a, h):
             if rank == 0:
                 start_b = time.time()
 
-            cleanf0, cleanf0_quant, \
+            cleanf0, _, \
                     cleanaudio, noisyaudio, filename = batch
+            
+            # cleanf0.size() = [B, T/hop_len]
+            # cleanaudio.size() = noisyaudio.size() = [B, T]
             
             cleanf0 = torch.autograd.Variable(cleanf0.to(device, non_blocking=True))
             noisyaudio = torch.autograd.Variable(noisyaudio.to(device, non_blocking=True))
