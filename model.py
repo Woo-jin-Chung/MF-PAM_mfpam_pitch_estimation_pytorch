@@ -119,8 +119,9 @@ class Estimation_stage(torch.nn.Module):
 
         features = (p1, p2, p3, p4, p5)
         f0_features = self.light_bifpn(features)
-        # [B,48,500,1], [B,48,500,1], [B,48,500,1], [B,48,500,1], [B,48,500,1]
         " 500 = frame number while the input_length is 4sec & hop_lenghth is 128 & sampling rate is 16 kHz"
+        # [B,48,500,1], [B,48,500,1], [B,48,500,1], [B,48,500,1], [B,48,500,1]
+        
 
         f0_feature = torch.cat(f0_features, dim=1)
         # f0_feature: [B, 48*5=240, 500, 1]
