@@ -9,7 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 from env import AttrDict, build_env
 from dataset import F0Dataset, get_dataset_filelist
-from model import Estimation_stage
+from model_direct import Estimation_stage
 from utils import scan_checkpoint, load_checkpoint, save_checkpoint, plot_f0_compared
 import torch.nn as nn
 import pkbar
@@ -24,10 +24,10 @@ def train(rank, a, h):
     torch.cuda.manual_seed(h.seed)
     device = torch.device('cuda:{:d}'.format(rank))
 
-    generator = Estimation_stage().to(device)
+    estimator = Estimation_stage().to(device)
 
     if rank == 0:
-        print(generator)
+        print(estimator)
         os.makedirs(a.checkpoint_path, exist_ok=True)
         print("checkpoints directory : ", a.checkpoint_path)
 
@@ -40,11 +40,11 @@ def train(rank, a, h):
         last_epoch = -1
     else:
         state_dict_g = load_checkpoint(cp_g, device)
-        generator.load_state_dict(state_dict_g['generator'])
+        estimator.load_state_dict(state_dict_g['estimator'])
         steps = state_dict_g['steps'] + 1
         last_epoch = state_dict_g['epoch']
 
-    optim_g = torch.optim.Adam(generator.parameters(), lr=h.learning_rate, betas=(h.adam_b1, h.adam_b2))
+    optim_g = torch.optim.Adam(estimator.parameters(), lr=h.learning_rate, betas=(h.adam_b1, h.adam_b2))
 
     if state_dict_g is not None:
         optim_g.load_state_dict(state_dict_g['optim_g'])
@@ -77,7 +77,7 @@ def train(rank, a, h):
         
         sw = SummaryWriter(os.path.join(a.checkpoint_path, 'logs'))
 
-    generator.train()
+    estimator.train()
     criterion = nn.BCELoss()
     criterion2 = nn.L1Loss()
     
@@ -97,7 +97,7 @@ def train(rank, a, h):
             cleanf0 = torch.autograd.Variable(cleanf0.to(device, non_blocking=True))
             noisyaudio = torch.autograd.Variable(noisyaudio.to(device, non_blocking=True))
             
-            f0_hat = generator(noisyaudio)
+            f0_hat = estimator(noisyaudio)
             
             optim_g.zero_grad()
             
@@ -117,7 +117,7 @@ def train(rank, a, h):
                 if steps % a.checkpoint_interval == 0 and steps != 0:
                     checkpoint_path = "{}/g_{:08d}".format(a.checkpoint_path, steps)
                     save_checkpoint(checkpoint_path,
-                                    {'generator': generator.state_dict(),
+                                    {'estimator': estimator.state_dict(),
                                     'optim_g': optim_g.state_dict(),
                                     'steps': steps,
                                     'epoch': epoch})
@@ -129,7 +129,7 @@ def train(rank, a, h):
 
                 #################################### Validation ####################################
                 if steps % a.validation_interval == 0:  # and steps != 0:
-                    generator.eval()
+                    estimator.eval()
                     torch.cuda.empty_cache()
                     f0_error = 0
                     f0_mae = 0
@@ -143,7 +143,7 @@ def train(rank, a, h):
                             cleanf0, cleanf0_quant,\
                                     cleanaudio, noisyaudio, filename = batch
                             
-                            f0_hat = generator(noisyaudio.to(device))
+                            f0_hat = estimator(noisyaudio.to(device))
 
                             filename = filename[0].split('.')[0]
                             if cleanf0.size(1) != f0_hat.size(1):
@@ -194,7 +194,7 @@ def train(rank, a, h):
                         sw.add_scalar("validation/RPA", val_RPA*100, steps)
                         sw.add_scalar("validation/RCA", val_RCA*100, steps)
 
-                    generator.train()
+                    estimator.train()
             steps += 1
         
         scheduler_g.step()
