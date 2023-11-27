@@ -56,7 +56,7 @@ def train(rank, a, h):
     trainset = F0Dataset(traindata, h.segment_size, h.n_fft, h.num_mels,
                             h.hop_size, h.sampling_rate, n_cache_reuse=0,
                             shuffle=False, device=device,
-                            train=True)
+                            train=True, rir_dir=a.rir_dir)
 
     train_loader = DataLoader(trainset, num_workers=h.num_workers, shuffle=False,
                                 sampler=None,
@@ -67,7 +67,7 @@ def train(rank, a, h):
     if rank == 0:
         validset = F0Dataset(valdata, h.segment_size, h.n_fft, h.num_mels,
                                 h.hop_size, h.sampling_rate, False, False, n_cache_reuse=0,
-                                device=device, train=False)
+                                device=device, train=False, rir_dir=a.rir_dir)
 
         validation_loader = DataLoader(validset, num_workers=1, shuffle=False,
                                         sampler=None,
