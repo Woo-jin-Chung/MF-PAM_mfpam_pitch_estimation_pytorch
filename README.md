@@ -23,15 +23,14 @@ python make_data_json.py path/to/noisy/train/data/dir > json_save_dir/train/nois
 python make_data_json.py path/to/clean/test/data/dir > json_save_dir/test/clean.json
 python make_data_json.py path/to/noisy/test/data/dir > json_save_dir/test/noisy.json
 ```
-Also prepare a room impulse response (RIR) wavfile list in line 134-137 dataset.py
 
 ## Training
 ```
 # Original code
-python train.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory
+python train.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory --rir_dir /path/to/rir_list_saved/directory
 
 # Directly estimating the F0 (preferred for better VAD performance)
-python train_direct.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory
+python train_direct.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory --rir_dir /path/to/rir_list_saved/directory
 ```
 
 ## Publications
