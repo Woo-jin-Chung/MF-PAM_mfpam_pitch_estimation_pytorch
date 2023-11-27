@@ -55,6 +55,14 @@ class Analysis_stage(nn.Module):
             rescale_module(self, reference=rescale)
 
     def valid_length(self, length):
+        """
+        Return the nearest valid length to use with the model so that
+        there is no time steps left over in a convolutions, e.g. for all
+        layers, size of the input - kernel_size % stride = 0.
+
+        If the mixture has a valid length, the estimated sources
+        will have exactly the same length.
+        """
         length = math.ceil(length * self.resample)
         for idx in range(self.depth):
             length = math.ceil((length - self.kernel_size) / self.stride) + 1
