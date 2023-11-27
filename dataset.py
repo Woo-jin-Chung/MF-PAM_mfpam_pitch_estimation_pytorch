@@ -14,13 +14,12 @@ import scipy.signal as ss
 import soundfile as sf
 
 
-def get_dataset_filelist(a):
-    json_dir = 'Directory where the json file is'
+def get_dataset_filelist(json_dir):
     # json file only noisy wav (no reverb)(clean + noise)
     train_noisy_json = os.path.join(json_dir, 'train', 'noisy.json')
     train_clean_json = os.path.join(json_dir, 'train', 'clean.json')
     # json file for what environment you want to evaluate
-    test_noisy_json = os.path.join(json_dir, 'test', 'all_noisy.json')
+    test_noisy_json = os.path.join(json_dir, 'test', 'noisy.json')
     test_clean_json = os.path.join(json_dir, 'test', 'clean.json')
     with open(train_noisy_json, 'r') as f:
         train_noisy = json.load(f)
@@ -125,7 +124,6 @@ class F0Dataset(torch.utils.data.Dataset):
         self.n_cache_reuse = n_cache_reuse
         self.device = device
         self.train = train
-        self.num_examples = []
         if split == True:
             self.length = length
         else:
