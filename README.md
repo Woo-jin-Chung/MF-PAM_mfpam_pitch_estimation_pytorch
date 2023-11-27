@@ -27,7 +27,10 @@ Also prepare a room impulse response (RIR) wavfile list in line 134-137 dataset.
 
 ## Training
 ```
+# Original code
 python train.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory
+# Directly estimating the F0 (perferred for better VAD performance)
+python train_direct.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory
 ```
 
 ## Publications
