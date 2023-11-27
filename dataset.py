@@ -111,7 +111,7 @@ class Audioset:
 
 class F0Dataset(torch.utils.data.Dataset):
     def __init__(self, traindata, hop_size, sampling_rate, split=True, shuffle=True, n_cache_reuse=1,
-                 device=None, train=True, length=4.5*16000, stride=1*16000, pad=True):
+                 device=None, train=True, length=4.5*16000, stride=1*16000, pad=True, rir_dir=None):
         self.traindata = traindata
         random.seed(1234)
         if shuffle:
@@ -130,11 +130,12 @@ class F0Dataset(torch.utils.data.Dataset):
             self.length = None
         self.stride = stride or length
         self.pad = pad
-        
-        if train:
-            self.rir_list = pd.read_csv('list_of_train_rir_wav_address.csv')
-        else:
-            self.rir_list = pd.read_csv('list_of_test_rir_wav_address.csv')
+
+        if rir_dir is not None:
+            if train:
+                self.rir_list = pd.read_csv(os.path.join(rir_dir, train.csv))
+            else:
+                self.rir_list = pd.read_csv(os.path.join(rir_dir, test.csv))
 
 
         clean = self.traindata[0]
