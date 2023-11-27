@@ -20,6 +20,7 @@ python make_data_json.py path/to/noisy/test/data/dir > json_save_dir/test/noisy.
 ```
 
 ## Training
+Also prepare a room impulse response (RIR) list in line 134-137 dataset.py
 ```
 python train.py --checkpoint_path /path/to/save/checkpoint --data_json_path /path/to/data/json/directory
 ```
