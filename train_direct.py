@@ -51,7 +51,7 @@ def train(rank, a, h):
 
     scheduler_g = torch.optim.lr_scheduler.ExponentialLR(optim_g, gamma=h.lr_decay, last_epoch=last_epoch)
 
-    traindata, valdata = get_dataset_filelist(a)
+    traindata, valdata = get_dataset_filelist(a.data_json_path)
     
     trainset = F0Dataset(traindata, h.segment_size, h.n_fft, h.num_mels,
                             h.hop_size, h.sampling_rate, n_cache_reuse=0,
@@ -212,6 +212,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--checkpoint_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
+    parser.add_argument('--data_json_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
     parser.add_argument('--config', default='config.json')
     parser.add_argument('--training_epochs', default=3100, type=int)
     parser.add_argument('--stdout_interval', default=5, type=int)
