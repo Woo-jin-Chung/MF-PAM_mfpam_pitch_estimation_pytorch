@@ -6,11 +6,6 @@
 # LICENSE file in the root directory of this source tree.
 # authors: adiyoss and adefossez
 
-# path= demucsdata/tr
-# if [[ ! -e $path ]]; then
-#     mkdir -p $path
-# fi
-
 
 from collections import namedtuple
 import json
