@@ -124,6 +124,7 @@ class F0Dataset(torch.utils.data.Dataset):
         self.n_cache_reuse = n_cache_reuse
         self.device = device
         self.train = train
+        self.rir_dir = rir_dir
         if split == True:
             self.length = length
         else:
@@ -173,17 +174,19 @@ class F0Dataset(torch.utils.data.Dataset):
         if self.train:
             clean = cleanaudio
             noisy = noisyaudio
-            
-            distortion = np.random.choice(['noise', 'rir', 'both'], p=(0.3, 0.3, 0.4))
             noise = noisy - clean
-            reverb = self.add_reverb(clean, self.rir_list)
-
-            if distortion == 'both':
-                fb_noisy = noise + reverb
-            elif distortion == 'noise':
+            
+            if self.rir_dir is not None:
+                distortion = np.random.choice(['noise', 'rir', 'both'], p=(0.3, 0.3, 0.4))
+                reverb = self.add_reverb(clean, self.rir_list)
+                if distortion == 'both':
+                    fb_noisy = noise + reverb
+                elif distortion == 'noise':
+                    fb_noisy = noisy
+                elif distortion == 'rir':
+                    fb_noisy = reverb
+            else:
                 fb_noisy = noisy
-            elif distortion == 'rir':
-                fb_noisy = reverb
                 
             clean = clean.unsqueeze(0)
             fb_noisy = fb_noisy.unsqueeze(0)
