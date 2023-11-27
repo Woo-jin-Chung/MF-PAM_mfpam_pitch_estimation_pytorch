@@ -211,8 +211,9 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--checkpoint_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
-    parser.add_argument('--data_json_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
+    parser.add_argument('--checkpoint_path', default='/path/to/checkpoint_save_path')
+    parser.add_argument('--data_json_path', default='/path/to/data_json_saved_dir')
+    parser.add_argument('--rir_dir', default='/path/to/room_impulse_response_list')
     parser.add_argument('--config', default='config.json')
     parser.add_argument('--training_epochs', default=3100, type=int)
     parser.add_argument('--stdout_interval', default=5, type=int)
