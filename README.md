@@ -12,7 +12,11 @@ You may use train_direct.py or model_direct.py for direct f0 estimation
 
 ## Make json file for dataset
 ```
-python make_data_json.py file_dir > save_dir/train.json
+Prepare for clean dataset and the corresponding noisy dataset
+python make_data_json.py file_dir > save_dir/train/clean.json
+python make_data_json.py file_dir > save_dir/train/noisy.json
+python make_data_json.py file_dir > save_dir/test/clean.json
+python make_data_json.py file_dir > save_dir/test/noisy.json
 ```
 
 
