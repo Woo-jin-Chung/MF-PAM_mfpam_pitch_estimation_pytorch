@@ -135,6 +135,10 @@ class Estimation_stage(torch.nn.Module):
 
 
 class Light_BiFPN(nn.Module):
+    """
+    created by Zylo117
+    modified by Woo-jin-Chung
+    """
     def __init__(self, num_channels, epsilon=1e-8, orig_swish=False):
         super(Light_BiFPN, self).__init__()
 
