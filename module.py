@@ -4,6 +4,9 @@ from torch import nn
 from torch.nn import functional as F
 
 def P_Conv(chin, chout, kernel_size, stride, snakefactor=5):
+    """
+    created by Woo-jin-Chung
+    """
     activation = Snake(a=snakefactor)
     pconv = []
     pconv += [
@@ -15,6 +18,9 @@ def P_Conv(chin, chout, kernel_size, stride, snakefactor=5):
     return pconv
 
 def N_Conv(chin, chout, kernel_size, stride, snakefactor=0.2):
+    """
+    created by Woo-jin-Chung
+    """
     activation = Snake(a=snakefactor)
     npconv = []
     npconv += [
@@ -26,6 +32,9 @@ def N_Conv(chin, chout, kernel_size, stride, snakefactor=0.2):
     return npconv
 
 def PNP_Conv_operation(wav, pconv, npconv):
+    """
+    created by Woo-jin-Chung
+    """
     np_wav = wav
     for p in pconv:
         pwav = p(wav)
@@ -50,6 +59,9 @@ class LSTM(nn.Module):
         return x, hidden
 
 class SeparableConvBlock(nn.Module):
+    """
+    created by Zylo117
+    """
     def __init__(self, in_channels, out_channels=None, norm=True, activation=False, orig_swish=False):
         super(SeparableConvBlock, self).__init__()
         if out_channels is None:
@@ -218,7 +230,7 @@ class Swish(nn.Module):
     def forward(self, x):
         return x * torch.sigmoid(x)
 
-class Snake(nn.Module):#learnable a
+class Snake(nn.Module):
     def __init__(self, a=5):
         super(Snake, self).__init__()
         self.a = a
