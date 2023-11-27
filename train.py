@@ -73,7 +73,7 @@ def train(rank, a, h):
     
     trainset = F0Dataset(traindata, h.hop_size, h.sampling_rate, n_cache_reuse=0,
                             shuffle=False, device=device,
-                            train=True)
+                            train=True, rir_dir=a.rir_dir)
 
     train_loader = DataLoader(trainset, num_workers=h.num_workers, shuffle=False,
                                 sampler=None,
@@ -83,7 +83,7 @@ def train(rank, a, h):
 
     if rank == 0:
         validset = F0Dataset(valdata, h.hop_size, h.sampling_rate, False, False, n_cache_reuse=0,
-                                device=device, train=False)
+                                device=device, train=False, rir_dir=a.rir_dir)
 
         validation_loader = DataLoader(validset, num_workers=1, shuffle=False,
                                         sampler=None,
@@ -239,8 +239,9 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--checkpoint_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
-    parser.add_argument('--data_json_path', default='/home/woojinchung/codefile/Interspeech2023/feature_estimation/cp/cp_temp')
+    parser.add_argument('--checkpoint_path', default='/path/to/checkpoint_save_path')
+    parser.add_argument('--data_json_path', default='/path/to/data_json_saved_dir')
+    parser.add_argument('--rir_dir', default='/path/to/room_impulse_response_list')
     parser.add_argument('--config', default='config.json')
     parser.add_argument('--training_epochs', default=3100, type=int)
     parser.add_argument('--stdout_interval', default=5, type=int)
