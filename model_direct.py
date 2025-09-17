@@ -130,7 +130,7 @@ class Estimation_stage(torch.nn.Module):
         # f0_feature: [B, 500, 40]
         f0out = self.ln(f0_feature).squeeze(2)
         # [B, 500]
-        f0out = torch.sigmoid(f0out)
+        
 
         return f0out
 
